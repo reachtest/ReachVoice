@@ -15,5 +15,9 @@
     <string name="record_audio">Record Audio</string>
     <string name="record_desc">Please push the button and read the following:</string>
     <string name="add">add</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="still_loading">Still Loading...</string>
+    <string name="yoWeNeedPermissionToRecord">Yo man, we need permission to record. Please grant the permission NOW</string>
+    <string name="heyYouDeniedPermissions">Hey man, you denied all permissions. Oh well, your loss.</string>
 </resources>

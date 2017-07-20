@@ -24,9 +24,6 @@ public class UserListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_list_activity);
 
-        // init database
-        Database.init(this);
-
         client = new SpeakerIdentificationRestClient(getString(R.string.microsoft_azure_key));
         profiles = new ArrayList<>();
 

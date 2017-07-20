@@ -58,9 +58,6 @@ public class AddUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_user_activity);
 
-        // init database
-        Database.init(this);
-
         gotAudio = false;
         gotPhrases = false;
         phrases = new ArrayList<>();

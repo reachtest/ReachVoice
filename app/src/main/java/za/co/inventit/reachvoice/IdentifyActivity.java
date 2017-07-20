@@ -1,11 +1,10 @@
 package za.co.inventit.reachvoice;
 
-import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.MediaRecorder;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,9 +30,6 @@ public class IdentifyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.identify_activity);
-
-        // init database
-        Database.init(this);
 
         gotAudio = false;
 
@@ -76,21 +72,6 @@ public class IdentifyActivity extends AppCompatActivity {
                         animateVoice((float) (audioChunk.maxAmplitude() / 200.0));
                     }
                 }), file());
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
-                // user has saved the voice
-                gotAudio = true;
-                saveUser();
-            } else if (resultCode == RESULT_CANCELED) {
-                // user cancelled
-                gotAudio = false;
-            }
-        }
     }
 
 

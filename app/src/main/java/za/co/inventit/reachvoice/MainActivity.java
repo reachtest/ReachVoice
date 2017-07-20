@@ -43,5 +43,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        PermissionUtil.hasPermissions(this, PermissionUtil.PERMISSIONS_ALL_REQUIRED);
+
+        PermissionUtil.shouldShowRequestPermissionRationale(this, PermissionUtil.PERMISSIONS_ALL_REQUIRED);
     }
 }

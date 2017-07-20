@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,6 +43,9 @@ public class AddUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_user_activity);
+
+        // init database
+        Database.init(this);
 
         gotAudio = false;
         gotPhrases = false;
@@ -108,15 +112,8 @@ public class AddUserActivity extends AppCompatActivity {
     }
 
     private void saveUser() {
-
         // create azure user profile
         new ServerCallCreateProfile().execute("");
-
-        // send to azure
-        // TODO (filename)
-
-        // save to DB
-        // TODO
     }
 
     private void updatePhrases() {
@@ -184,7 +181,11 @@ public class AddUserActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            // TODO
+            // save the user
+            EditText edit = (EditText) findViewById(R.id.name);
+            String name = edit.getText().toString();
+            RealmUser user = new RealmUser(uuid.toString(), name);
+            Database.User.save(user);
         }
     }
 

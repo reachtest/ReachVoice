@@ -1,6 +1,11 @@
 package za.co.inventit.reachvoice;
 
+import android.content.Intent;
+import android.media.AudioFormat;
+import android.media.MediaRecorder;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,11 +24,19 @@ import com.microsoft.cognitive.speakerrecognition.contract.identification.Create
 import com.microsoft.cognitive.speakerrecognition.contract.identification.OperationLocation;
 import com.microsoft.cognitive.speakerrecognition.contract.verification.VerificationPhrase;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import omrecorder.AudioChunk;
+import omrecorder.AudioRecordConfig;
+import omrecorder.OmRecorder;
+import omrecorder.PullTransport;
+import omrecorder.PullableSource;
+import omrecorder.Recorder;
 
 public class AddUserActivity extends AppCompatActivity {
     private static final String TAG = AddUserActivity.class.getSimpleName();
@@ -31,6 +44,8 @@ public class AddUserActivity extends AppCompatActivity {
     private SpeakerVerificationRestClient verClient;
     private SpeakerIdentificationRestClient idClient;
     private List<VerificationPhrase> phrases;
+
+    private Recorder recorder;
 
     private boolean gotPhrases;
     private boolean gotAudio;
@@ -69,31 +84,40 @@ public class AddUserActivity extends AppCompatActivity {
         new ServerCallGetPhrases().execute("");
 
         // record button
-        View record = findViewById(R.id.record);
-        final MediaInteractor media = new MediaInteractor();
-        filename = getApplicationInfo().dataDir + "/voice_audio";
+        final View record = findViewById(R.id.record);
+        //final MediaInteractor media = new MediaInteractor();
+        filename = getApplicationInfo().dataDir + "/voice_audio.wav";
         record.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
                     if (!gotPhrases) {
                         Snackbar.make(findViewById(android.R.id.content), getString(R.string.still_loading), Snackbar.LENGTH_SHORT).show();
                         return false;
                     }
                     else if (gotAudio) {
                         // play
-                        media.playPauseMediaItem(filename);
+                        //media.playPauseMediaItem(filename);
                     }
                     else {
                         // record
                         Log.d(TAG, "STARTING audio recording");
-                        media.startRecording(filename);
+                        initRecording();
+                        recorder.startRecording();
+                        //media.startRecording(filename);
                     }
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.d(TAG, "STOPPING audio recording");
-                    media.stopRecording();
+                    if (gotPhrases) {
+                        //media.stopRecording();
+                        try {
+                            recorder.stopRecording();
+                        }
+                        catch (Exception e) {
+                            Log.e(TAG, "Exception " + e);
+                        }
+                    }
                     gotAudio = true;
                 }
 
@@ -111,8 +135,54 @@ public class AddUserActivity extends AppCompatActivity {
         });
     }
 
+    private void initRecording() {
+        recorder = OmRecorder.wav(
+                new PullTransport.Default(mic(), new PullTransport.OnAudioChunkPulledListener() {
+                    @Override public void onAudioChunkPulled(AudioChunk audioChunk) {
+                        animateVoice((float) (audioChunk.maxAmplitude() / 200.0));
+                    }
+                }), file());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                // user has saved the voice
+                gotAudio = true;
+                saveUser();
+            } else if (resultCode == RESULT_CANCELED) {
+                // user cancelled
+                gotAudio = false;
+            }
+        }
+    }
+
+    private void animateVoice(final float maxPeak) {
+        //recordButton.animate().scaleX(1 + maxPeak).scaleY(1 + maxPeak).setDuration(10).start();
+    }
+
+    private PullableSource mic() {
+        return new PullableSource.Default(
+                new AudioRecordConfig.Default(
+                        MediaRecorder.AudioSource.MIC, AudioFormat.ENCODING_PCM_16BIT,
+                        AudioFormat.CHANNEL_IN_MONO, 16000
+                )
+        );
+    }
+
+    @NonNull
+    private File file() {
+        return new File(filename);
+    }
+
     private void saveUser() {
         // create azure user profile
+        if (!gotAudio) {
+            Snackbar.make(findViewById(android.R.id.content), getString(R.string.still_loading), Snackbar.LENGTH_SHORT).show();
+            return;
+        }
         new ServerCallCreateProfile().execute("");
     }
 
@@ -186,6 +256,7 @@ public class AddUserActivity extends AppCompatActivity {
             String name = edit.getText().toString();
             RealmUser user = new RealmUser(uuid.toString(), name);
             Database.User.save(user);
+            Log.d(TAG, "");
         }
     }
 

@@ -24,11 +24,13 @@ public class UserListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_list_activity);
 
+        // init database
+        Database.init(this);
+
         client = new SpeakerIdentificationRestClient(getString(R.string.microsoft_azure_key));
         profiles = new ArrayList<>();
 
         new ServerCall().execute("");
-
     }
 
     private void updatePage() {
@@ -36,10 +38,17 @@ public class UserListActivity extends AppCompatActivity {
 
         for (int i = 0; i < profiles.size(); i++) {
             Profile profile = profiles.get(i);
-            Log.d(TAG, "Profile = " + profile.identificationProfileId);
+            Log.d(TAG, "MS Profile = " + profile.identificationProfileId);
         }
 
-        // TODO SHOW USERS HERE
+        List<RealmUser> users = Database.User.getAll();
+        for (int i = 0; i < users.size(); i++) {
+            RealmUser user = users.get(i);
+
+            Log.d(TAG, "User: Name=" + user.getName() + ", Key=" + user.getKey());
+        }
+
+        // TODO SHOW USERS HERE IN APP
     }
 
     @Override

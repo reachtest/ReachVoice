@@ -236,10 +236,11 @@ public class AddUserActivity extends AppCompatActivity {
                 InputStream stream;
                 stream = new FileInputStream(filename);
 
-                OperationLocation loc = idClient.enroll(stream ,uuid);
-                Log.d(TAG, "Got location info back");
-
-                // TODO ????
+                OperationLocation loc = idClient.enroll(stream, uuid);
+                if (loc != null) {
+                    Log.d(TAG, "Location Empty");
+                }
+                Log.d(TAG, "Got location info back: " + loc.Url);
 
                 return 0;
             }
@@ -256,7 +257,9 @@ public class AddUserActivity extends AppCompatActivity {
             String name = edit.getText().toString();
             RealmUser user = new RealmUser(uuid.toString(), name);
             Database.User.save(user);
-            Log.d(TAG, "");
+            Log.d(TAG, "Added user " + name);
+
+            finish();
         }
     }
 

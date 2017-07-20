@@ -60,11 +60,11 @@ public class Database {
             }
         }
 
-        public static RealmUser get() {
+        public static RealmUser get(String key) {
             Realm realm = null;
             try {
                 realm = Realm.getDefaultInstance();
-                RealmResults<RealmUser> r = realm.where(RealmUser.class).findAll();
+                RealmResults<RealmUser> r = realm.where(RealmUser.class).equalTo(key, "key").findAll();
                 if (r.size() > 0) {
                     return r.first();
                 }
@@ -105,7 +105,7 @@ public class Database {
                 if (realm != null) {
                     realm.cancelTransaction();
                 }
-                Log.e(TAG, "DB Error: Fertilizers.getList", e);
+                Log.e(TAG, "DB Error: User.getAll", e);
             } finally {
                 if (realm != null) {
                     realm.close();

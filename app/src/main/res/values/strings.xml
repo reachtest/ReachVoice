@@ -15,4 +15,5 @@
     <string name="record_audio">Record Audio</string>
     <string name="record_desc">Please push the button and read the following:</string>
     <string name="add">add</string>
+    <string name="still_loading">Still Loading...</string>
 </resources>

@@ -24,6 +24,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.3.0'
 
+    compile 'com.android.support:design:25.3.0'
+
     compile 'com.microsoft.cognitive:speakerrecognition:1.1.0'
 
     compile 'de.greenrobot:eventbus:2.4.1'

@@ -23,8 +23,6 @@ public class MediaInteractor {
      */
     private MediaPlayer mediaPlayer = null;
 
-    private int currentMediaItemPlayingId;
-
     public MediaInteractor() {
     }
 
@@ -77,18 +75,16 @@ public class MediaInteractor {
 
     }
 
-    public void playPauseMediaItem(final String filePath, final int mediaItemId) {
+    public void playPauseMediaItem(final String filePath) {
 
         //noinspection TryWithIdenticalCatches
         try {
             Log.d(TAG, "Playing recording. Path = " + filePath);
 
-            boolean playerNeedsRestart = currentMediaItemPlayingId != -1 && mediaItemId != currentMediaItemPlayingId;
-
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
 
-            } else if (mediaPlayer == null || playerNeedsRestart) {
+            } else if (mediaPlayer == null) {
                 destroyMediaPlayer();
                 mediaPlayer = new MediaPlayer();
                 mediaPlayer.setDataSource(filePath);
@@ -96,7 +92,6 @@ public class MediaInteractor {
                 mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
-                        currentMediaItemPlayingId = mediaItemId;
                         mediaPlayer.start();
                     }
                 });
@@ -117,7 +112,6 @@ public class MediaInteractor {
                 });
                 mediaPlayer.prepareAsync();
             } else if (mediaPlayer.getCurrentPosition() >= 0) {
-                currentMediaItemPlayingId = mediaItemId;
                 mediaPlayer.start();
 
             }
@@ -129,7 +123,7 @@ public class MediaInteractor {
     }
 
     public void pausePlayingRecording(String filePath, int mediaItemId) {
-        playPauseMediaItem(filePath, mediaItemId);
+        playPauseMediaItem(filePath);
     }
 
     public void rewindRecordingToStart() {
@@ -152,8 +146,6 @@ public class MediaInteractor {
                 mediaPlayer.reset();
                 mediaPlayer.release();
                 mediaPlayer = null;
-
-                currentMediaItemPlayingId = -1;
             }
         } catch (Exception ignored) {
         }

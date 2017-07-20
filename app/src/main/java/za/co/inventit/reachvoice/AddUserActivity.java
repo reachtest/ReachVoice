@@ -1,6 +1,7 @@
 package za.co.inventit.reachvoice;
 
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,8 @@ public class AddUserActivity extends AppCompatActivity {
     private SpeakerIdentificationRestClient idClient;
     private List<VerificationPhrase> phrases;
 
+    private boolean gotPhrases;
+    private boolean gotAudio;
     private String filename;
     private UUID uuid;
 
@@ -40,6 +43,8 @@ public class AddUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_user_activity);
 
+        gotAudio = false;
+        gotPhrases = false;
         phrases = new ArrayList<>();
         verClient = new SpeakerVerificationRestClient(getString(R.string.microsoft_azure_key));
         idClient = new SpeakerIdentificationRestClient(getString(R.string.microsoft_azure_key));
@@ -67,12 +72,25 @@ public class AddUserActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.d(TAG, "STARTING audio recording");
-                    media.startRecording(filename);
+
+                    if (!gotPhrases) {
+                        Snackbar.make(findViewById(android.R.id.content), getString(R.string.still_loading), Snackbar.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    else if (gotAudio) {
+                        // play
+                        media.playPauseMediaItem(filename);
+                    }
+                    else {
+                        // record
+                        Log.d(TAG, "STARTING audio recording");
+                        media.startRecording(filename);
+                    }
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.d(TAG, "STOPPING audio recording");
                     media.stopRecording();
+                    gotAudio = true;
                 }
 
                 return true;
@@ -138,6 +156,7 @@ public class AddUserActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
+            gotPhrases = true;
             updatePhrases();
         }
     }

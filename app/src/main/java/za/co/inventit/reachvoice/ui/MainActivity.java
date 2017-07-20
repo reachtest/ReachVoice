@@ -1,4 +1,4 @@
-package za.co.inventit.reachvoice;
+package za.co.inventit.reachvoice.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +11,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+
+import za.co.inventit.reachvoice.utils.PermissionUtil;
+import za.co.inventit.reachvoice.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         // identify
         View identify = findViewById(R.id.button_identify);
+
+        new PressAnimator(identify, identify);
+
         identify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         // add
         View add = findViewById(R.id.button_add);
+
+        new PressAnimator(add, add);
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         // list
         View list = findViewById(R.id.button_list);
+
+        new PressAnimator(list, list);
+
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

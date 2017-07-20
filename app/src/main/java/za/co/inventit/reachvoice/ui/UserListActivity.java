@@ -1,4 +1,4 @@
-package za.co.inventit.reachvoice;
+package za.co.inventit.reachvoice.ui;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import za.co.inventit.reachvoice.db.Database;
+import za.co.inventit.reachvoice.R;
+import za.co.inventit.reachvoice.db.RealmUser;
+import za.co.inventit.reachvoice.events.UpdatePageEvent;
 
 public class UserListActivity extends AppCompatActivity {
     private static final String TAG = UserListActivity.class.getSimpleName();
@@ -23,9 +27,6 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_list_activity);
-
-        // init database
-        Database.init(this);
 
         client = new SpeakerIdentificationRestClient(getString(R.string.microsoft_azure_key));
         profiles = new ArrayList<>();
@@ -42,10 +43,13 @@ public class UserListActivity extends AppCompatActivity {
         }
 
         List<RealmUser> users = Database.User.getAll();
-        for (int i = 0; i < users.size(); i++) {
-            RealmUser user = users.get(i);
 
-            Log.d(TAG, "User: Name=" + user.getName() + ", Key=" + user.getKey());
+        if (users != null) {
+            for (int i = 0; i < users.size(); i++) {
+                RealmUser user = users.get(i);
+
+                Log.d(TAG, "User: Name=" + user.getName() + ", Key=" + user.getKey());
+            }
         }
 
         // TODO SHOW USERS HERE IN APP

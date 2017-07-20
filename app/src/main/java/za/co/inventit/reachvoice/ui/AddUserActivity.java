@@ -1,19 +1,21 @@
-package za.co.inventit.reachvoice;
+package za.co.inventit.reachvoice.ui;
 
 import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -36,6 +38,9 @@ import omrecorder.OmRecorder;
 import omrecorder.PullTransport;
 import omrecorder.PullableSource;
 import omrecorder.Recorder;
+import za.co.inventit.reachvoice.R;
+import za.co.inventit.reachvoice.db.Database;
+import za.co.inventit.reachvoice.db.RealmUser;
 
 public class AddUserActivity extends AppCompatActivity {
     private static final String TAG = AddUserActivity.class.getSimpleName();
@@ -57,9 +62,6 @@ public class AddUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_user_activity);
-
-        // init database
-        Database.init(this);
 
         gotAudio = false;
         gotPhrases = false;
@@ -83,8 +85,8 @@ public class AddUserActivity extends AppCompatActivity {
         new ServerCallGetPhrases().execute("");
 
         // record button
-        final View record = findViewById(R.id.record);
-        //final MediaInteractor media = new MediaInteractor();
+        final ImageView record = (ImageView) findViewById(R.id.record);
+
         filename = getApplicationInfo().dataDir + "/voice_audio.wav";
         record.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -96,21 +98,23 @@ public class AddUserActivity extends AppCompatActivity {
                     }
                     else if (gotAudio) {
                         // play
-                        final MediaInteractor media = new MediaInteractor();
-                        media.playPauseMediaItem(filename);
+                        //final MediaInteractor media = new MediaInteractor();
+                        //media.playPauseMediaItem(filename);
+                        record.setImageDrawable(ContextCompat.getDrawable(AddUserActivity.this, R.drawable.ic_pause_circle));
                     }
                     else {
+                        record.setImageDrawable(ContextCompat.getDrawable(AddUserActivity.this, R.drawable.ic_microphone_on));
+
                         // record
                         Log.d(TAG, "STARTING audio recording");
                         initRecording();
                         recorder.startRecording();
-                        //media.startRecording(filename);
                     }
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.d(TAG, "STOPPING audio recording");
                     if (gotPhrases) {
-                        //media.stopRecording();
+
                         try {
                             recorder.stopRecording();
                         }
@@ -118,7 +122,10 @@ public class AddUserActivity extends AppCompatActivity {
                             Log.e(TAG, "Exception " + e);
                         }
                     }
+
                     gotAudio = true;
+
+                    record.setImageDrawable(ContextCompat.getDrawable(AddUserActivity.this, R.drawable.ic_play_circle));
                 }
 
                 return true;

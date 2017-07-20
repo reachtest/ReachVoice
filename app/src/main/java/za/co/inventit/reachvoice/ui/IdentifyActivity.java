@@ -1,11 +1,11 @@
-package za.co.inventit.reachvoice;
+package za.co.inventit.reachvoice.ui;
 
 import android.media.AudioFormat;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +27,7 @@ import omrecorder.OmRecorder;
 import omrecorder.PullTransport;
 import omrecorder.PullableSource;
 import omrecorder.Recorder;
+import za.co.inventit.reachvoice.R;
 
 public class IdentifyActivity extends AppCompatActivity {
     public static final String TAG = IdentifyActivity.class.getSimpleName();
@@ -43,13 +44,11 @@ public class IdentifyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.identify_activity);
 
-        // init database
-        Database.init(this);
-
         gotAudio = false;
 
         // record button
         final View record = findViewById(R.id.record);
+
         //final MediaInteractor media = new MediaInteractor();
         filename = getApplicationInfo().dataDir + "/voice_audio.wav";
         record.setOnTouchListener(new View.OnTouchListener() {

@@ -1,4 +1,4 @@
-package za.co.inventit.reachvoice;
+package za.co.inventit.reachvoice.db;
 
 import android.content.Context;
 import android.util.Log;

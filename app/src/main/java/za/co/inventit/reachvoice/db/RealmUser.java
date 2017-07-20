@@ -1,4 +1,4 @@
-package za.co.inventit.reachvoice;
+package za.co.inventit.reachvoice.db;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

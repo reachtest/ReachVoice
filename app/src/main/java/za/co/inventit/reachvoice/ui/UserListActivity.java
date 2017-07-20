@@ -43,10 +43,13 @@ public class UserListActivity extends AppCompatActivity {
         }
 
         List<RealmUser> users = Database.User.getAll();
-        for (int i = 0; i < users.size(); i++) {
-            RealmUser user = users.get(i);
 
-            Log.d(TAG, "User: Name=" + user.getName() + ", Key=" + user.getKey());
+        if (users != null) {
+            for (int i = 0; i < users.size(); i++) {
+                RealmUser user = users.get(i);
+
+                Log.d(TAG, "User: Name=" + user.getName() + ", Key=" + user.getKey());
+            }
         }
 
         // TODO SHOW USERS HERE IN APP

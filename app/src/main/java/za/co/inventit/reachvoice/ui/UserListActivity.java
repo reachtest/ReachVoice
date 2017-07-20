@@ -1,4 +1,4 @@
-package za.co.inventit.reachvoice;
+package za.co.inventit.reachvoice.ui;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import za.co.inventit.reachvoice.db.Database;
+import za.co.inventit.reachvoice.R;
+import za.co.inventit.reachvoice.db.RealmUser;
+import za.co.inventit.reachvoice.events.UpdatePageEvent;
 
 public class UserListActivity extends AppCompatActivity {
     private static final String TAG = UserListActivity.class.getSimpleName();

@@ -1,4 +1,4 @@
-package za.co.inventit.reachvoice;
+package za.co.inventit.reachvoice.ui;
 
 import android.content.Intent;
 import android.media.AudioFormat;
@@ -36,6 +36,9 @@ import omrecorder.OmRecorder;
 import omrecorder.PullTransport;
 import omrecorder.PullableSource;
 import omrecorder.Recorder;
+import za.co.inventit.reachvoice.db.Database;
+import za.co.inventit.reachvoice.R;
+import za.co.inventit.reachvoice.db.RealmUser;
 
 public class AddUserActivity extends AppCompatActivity {
     private static final String TAG = AddUserActivity.class.getSimpleName();

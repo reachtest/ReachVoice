@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,13 +22,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UserListActivity"
+            android:name=".ui.UserListActivity"
             android:label="@string/page_list" />
         <activity
-            android:name=".AddUserActivity"
+            android:name=".ui.AddUserActivity"
             android:label="@string/page_add_user" />
         <activity
-            android:name=".IdentifyActivity"
+            android:name=".ui.IdentifyActivity"
             android:label="@string/page_identify"/>
     </application>
 

@@ -1,4 +1,4 @@
-package za.co.inventit.reachvoice;
+package za.co.inventit.reachvoice.device;
 
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;

@@ -1,0 +1,18 @@
+<resources>
+    <string name="microsoft_azure_key">c849558987be458791c068a2cb1707e0</string>
+    <string name="microsoft_azure_local">en-US</string>
+
+    <string name="app_name">Reach Voice</string>
+    <string name="add_user">Add User</string>
+    <string name="identify">Identify</string>
+    <string name="list_users">List Users</string>
+    <string name="page_list">Users</string>
+    <string name="page_add_user">Add User</string>
+    <string name="add_user_desc">Adding a new user is as easy as 1 2 3...</string>
+    <string name="enter_name">Enter User Name</string>
+    <string name="hint_name">Name</string>
+    <string name="choose_phrase">Choose Phrase</string>
+    <string name="record_audio">Record Audio</string>
+    <string name="record_desc">Please push the button and read the following:</string>
+    <string name="add">add</string>
+</resources>

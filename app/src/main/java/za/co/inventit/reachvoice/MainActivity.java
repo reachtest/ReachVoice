@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
         identify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO
+                Intent intent = new Intent(context, IdentifyActivity.class);
+                startActivity(intent);
             }
         });
 

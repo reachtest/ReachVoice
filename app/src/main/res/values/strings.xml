@@ -16,4 +16,5 @@
     <string name="record_desc">Please push the button and read the following:</string>
     <string name="add">add</string>
     <string name="still_loading">Still Loading...</string>
+    <string name="page_identify">Identify</string>
 </resources>

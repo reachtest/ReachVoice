@@ -27,6 +27,9 @@
         <activity
             android:name=".AddUserActivity"
             android:label="@string/page_add_user" />
+        <activity
+            android:name=".IdentifyActivity"
+            android:label="@string/page_identify"/>
     </application>
 
 </manifest>

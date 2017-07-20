@@ -19,6 +19,14 @@ android {
     }
 }
 
+apply plugin: 'realm-android'
+
+repositories {
+  maven {
+    url "https://jitpack.io"
+  }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -26,8 +34,11 @@ dependencies {
 
     compile 'com.android.support:design:25.3.0'
 
+    //compile 'com.github.adrielcafe:AndroidAudioRecorder:0.3.0'
+
     compile 'com.microsoft.cognitive:speakerrecognition:1.1.0'
 
     compile 'de.greenrobot:eventbus:2.4.1'
 
+    compile 'com.kailashdabhi:om-recorder:1.1.5'
 }

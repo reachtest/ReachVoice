@@ -96,7 +96,8 @@ public class AddUserActivity extends AppCompatActivity {
                     }
                     else if (gotAudio) {
                         // play
-                        //media.playPauseMediaItem(filename);
+                        final MediaInteractor media = new MediaInteractor();
+                        media.playPauseMediaItem(filename);
                     }
                     else {
                         // record
@@ -132,6 +133,11 @@ public class AddUserActivity extends AppCompatActivity {
                 saveUser();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void initRecording() {

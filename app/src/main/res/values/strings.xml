@@ -1,5 +1,6 @@
 <resources>
     <string name="microsoft_azure_key">c849558987be458791c068a2cb1707e0</string>
+    <!--<string name="microsoft_azure_key">2872126420d2486c94f9b51cc6789a28</string>-->
     <string name="microsoft_azure_local">en-US</string>
 
     <string name="app_name">Reach Voice</string>

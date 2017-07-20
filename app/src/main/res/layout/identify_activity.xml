@@ -14,7 +14,7 @@
         android:text="SAY THIS: My Name is Unknown to you"/>
 
     <ImageView
-        android:id="@+id/button"
+        android:id="@+id/record"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center"
